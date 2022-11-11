@@ -109,13 +109,11 @@ int callSort(int res, char* argv[], int seed, string input, string output){
 
     int N;
     while(inFile >> N){
-        cout << "Entrou no while\n";
+        int* array = genRandInt(N, seed);
         switch (res)
         {
             case 1:
             {
-                int* array = genRandInt(N, seed);
-
                 //Invoke default quicksort
                 quicksort::quicksortStd(array, N);
                 break;
@@ -123,7 +121,9 @@ int callSort(int res, char* argv[], int seed, string input, string output){
 
             case 2:
             {
+                int k = atoi(argv[5]);
                 //Invoke median quicksort
+                quicksort::quicksortMedian(array, N, k);
                 break;
             }
             case 3:
@@ -141,6 +141,7 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 break;
             }    
         }
+        delete array;
     }
-    
+    return 0;
 }

@@ -51,3 +51,10 @@ void Stack::push(int val){
     this->Top = newTop;
     this->Size++;
 }
+
+
+Stack::~Stack(){
+    while(!this->isEmpty()){
+        this->pop();
+    }
+}

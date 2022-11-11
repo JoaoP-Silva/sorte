@@ -35,7 +35,8 @@ class Stack{
     public:
         //Empty stack constructor.
         Stack();
-
+        //Stack destructor
+        ~Stack();
         //Method to access the top of stack.
         int front();
 
