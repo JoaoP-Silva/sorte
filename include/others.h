@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <fstream>
 
+#include "quicksort.h"
+
 using namespace std;
 
 /**Function to parse the input and return a int related to the sort method.
@@ -16,7 +18,7 @@ int sortParser(char* argv[], int* randSeed,string& input, string& output);
 int* genRandInt(int N, int seed);
 
 //Run experiments and write the results on the output
-void callSort(int res, char* argv[], int seed,string input, string output);
+int callSort(int res, char* argv[], int seed,string input, string output);
 
 
 #endif
