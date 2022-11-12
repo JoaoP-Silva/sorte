@@ -20,12 +20,25 @@ class quicksort{
         //Recursive call to quicksortMedian
         static void quicksortMedianR(int left, int right, int k,int* array);
 
+        /**If the partition have less elements than m, sort by selection.
+         * Is used in method quicksortSelection()**/
+        static void partitionSelection(int* array, int left, int right, int* i, int* j);
+        /**Recursive call to quicksortSelection
+         * If the partition have less elements than m, sort by selection.**/
+        static void quicksortSelectionR(int left, int right, int m,int* array);
+        //Sort a partition of an array by selection
+        static void selectionSort(int* array, int left, int right);
+
     public:
         //Recursive standard quicksort.
         static void quicksortStd(int* array, int arrSize);
 
-        //Median recursive quicksort
+        //Recursive median quicksort
         static void quicksortMedian(int* array, int arrSize, int k);
+
+        //Recursive quicksort mixed with selectionsort
+        static void quicksortSelection(int* array, int arrSize, int m);
+
 
 };
 

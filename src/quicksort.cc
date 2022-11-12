@@ -49,7 +49,6 @@ void quicksort::partitionMedian(int* array, int left, int right, int* i, int* j,
     else { 
         pvt = array[(int)(*i + *j)/2]; 
     }
-    //std::cout << "Ta chegando aq\n";
     do{
         while(pvt > array[*i]){ (*i)++; }
         while(pvt < array[*j]){ (*j)--; }
@@ -72,4 +71,34 @@ void quicksort::quicksortMedianR(int left, int right, int k, int* array){
     quicksort::partitionMedian(array, left, right, &i, &j, k);
     if(left < j){ quicksort::quicksortMedianR(left, j, k,array); }
     if (right > i){ quicksort::quicksortMedianR(i, right, k, array); }
+}
+
+
+//Recursive quicksort mixed with selectionsort methods
+void quicksort::quicksortSelection(int* array, int arrSize, int m){
+    quicksort::quicksortSelectionR(0, arrSize-1, m,array);
+}
+
+void quicksort::quicksortSelectionR(int left, int right, int m, int* array){
+    int i, j;
+    if(right - left <= m){
+        quicksort::selectionSort(array, left, right);
+    }else{
+        quicksort::partitionStd(array, left, right, &i, &j);
+        if(left < j){ quicksort::quicksortSelectionR(left, j, m, array); }
+        if (right > i){ quicksort::quicksortSelectionR(i, right, m, array); }
+    }
+}
+
+void quicksort::selectionSort(int* array, int left, int right){
+    for(int i = left; i<= right; i++){
+        int less = array[i];
+        for(int j = i + 1; j<= right; j++){
+            if(array[j] < less){
+                int aux = less;
+                less = array[j];
+                array[j] = aux;
+            }
+        }
+    }
 }

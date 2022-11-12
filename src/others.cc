@@ -127,11 +127,19 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 break;
             }
             case 3:
-            {    //Invoke selection quicksort
+            {   
+                int m = atoi(argv[5]);
+                //Invoke selection quicksort
+                std::cout << "Chamando selction\n";
+                quicksort::quicksortSelection(array, N, m);
+                for(int i = 0; i < N; i++){
+                    std::cout << array[i] << " ";
+                }
                 break;
             }
             case 4:
             {
+
                 //Invoke iterative quicksort
                 break;
             }
