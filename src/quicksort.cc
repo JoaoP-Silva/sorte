@@ -39,19 +39,19 @@ void quicksort::partitionMedian(int* array, int left, int right, int* i, int* j,
     int pvt, aux;
     *i = left;
     *j = right;
-    if((*j - *i) >= k){
-        int* subArray = new int[k];
+    if((*j - *i) > k){
+        int* subArray = (int*) malloc(k * sizeof(int));
         for(int it = 0; it<k; it++){
             //Gerates a random number from i to j
-            int r = random() % *j + *i;
-            subArray[it] = array[r];
+            int half = (int)(*i + *j)/2;
+            subArray[it] = array[half + it];
         }
-        int subKeys, subRegs;
-        quicksort::quicksortStd(subArray, k, &subKeys, &subRegs);
+        int subKeys = 0, subRegs = 0;
+        quicksort::selectionSort(subArray, 0, k-1, &subKeys, &subRegs);
         *keysCmp += subKeys; *regCpy += subRegs;
 
         pvt = subArray[k/2];
-        delete subArray;
+        free(subArray);
     }
     else { 
         pvt = array[(int)(*i + *j)/2]; 
@@ -86,14 +86,14 @@ void quicksort::quicksortMedianR(int left, int right, int k, int* array,
 
 //Methods from recursive quicksort mixed with selectionsort
 void quicksort::quicksortSelection(int* array, int arrSize, int m, int* keysCmp, int* regCpy){
-    keysCmp = 0; regCpy = 0;
+    *keysCmp = 0; *regCpy = 0;
     quicksort::quicksortSelectionR(0, arrSize-1, m,array, keysCmp, regCpy);
 }
 
 void quicksort::quicksortSelectionR(int left, int right, int m, int* array,
                                     int* keysCmp, int* regCpy){
     int i, j;
-    if(right - left <= m){
+    if(right - left < m){
         quicksort::selectionSort(array, left, right, keysCmp, regCpy);
     }else{
         quicksort::partitionStd(array, left, right, &i, &j, keysCmp, regCpy);
