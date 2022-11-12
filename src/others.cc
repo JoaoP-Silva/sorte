@@ -122,11 +122,12 @@ int callSort(int res, char* argv[], int seed, string input, string output){
         {
             case 1:
             {
+                int keysCmp, regCpy;
                 struct rusage resources;
                 int rc;
                 double utime, stime, total_time;
                 //Invoke default quicksort
-                quicksort::quicksortStd(array, N);
+                quicksort::quicksortStd(array, N, &keysCmp, &regCpy);
 
                 if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
                     cerr << "Getrusage failed\n";
@@ -140,18 +141,20 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 total_time = utime+stime;
                 outFile << "Total time std quicksort with N=" 
                 << N << ": " << total_time <<endl;
-
+                outFile << "Keys cmp : " << keysCmp << endl;
+                outFile << "Registers copy : " << regCpy << endl;
                 break;
             }
 
             case 2:
             {
+                int keysCmp, regCpy;
                 struct rusage resources;
                 int rc;
                 double utime, stime, total_time;
                 //Invoke median quicksort
                 int k = atoi(argv[5]);
-                quicksort::quicksortMedian(array, N, k);
+                quicksort::quicksortMedian(array, N, k, &keysCmp, &regCpy);
 
                 if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
                     cerr << "Getrusage failed\n";
@@ -165,16 +168,19 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 total_time = utime+stime;
                 outFile << "Total time median quicksort with N=" 
                 << N << "and k="<< k <<": " << total_time <<endl;
+                outFile << "Keys cmp : " << keysCmp << endl;
+                outFile << "Registers copy : " << regCpy << endl;
                 break;
             }
             case 3:
             {
+                int keysCmp, regCpy;
                 struct rusage resources;
                 int rc;
                 double utime, stime, total_time;
                 //Invoke selection quicksort
                 int m = atoi(argv[5]);
-                quicksort::quicksortSelection(array, N, m);
+                quicksort::quicksortSelection(array, N, m, &keysCmp, &regCpy);
 
                 if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
                     cerr << "Getrusage failed\n";
@@ -188,15 +194,19 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 total_time = utime+stime;
                 outFile << "Total time selection quicksort with N=" 
                 << N << "and m="<< m <<": " << total_time <<endl;
+                outFile << "Keys cmp : " << keysCmp << endl;
+                outFile << "Registers copy : " << regCpy << endl;
                 break;
             }
+            
             case 4:
             {
+                int keysCmp, regCpy;
                 struct rusage resources;
                 int rc;
                 double utime, stime, total_time;
                 //Invoke iterative quicksort
-                quicksort::quisortIterative(array, N);
+                quicksort::quisortIterative(array, N, &keysCmp, &regCpy);
 
                 if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
                     cerr << "Getrusage failed\n";
@@ -210,15 +220,18 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 total_time = utime+stime;
                 outFile << "Total time iterative quicksort with N=" 
                 << N << ": " << total_time <<endl;
+                outFile << "Keys cmp : " << keysCmp << endl;
+                outFile << "Registers copy : " << regCpy << endl;
                 break;
             }
             case 5:
             {
+                int keysCmp, regCpy;
                 struct rusage resources;
                 int rc;
                 double utime, stime, total_time;
                 //Invoke smart stack quicksort
-                quicksort::quisortSmartStack(array, N);
+                quicksort::quisortSmartStack(array, N, &keysCmp, &regCpy);
                 
                 if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
                     cerr << "Getrusage failed\n";
@@ -232,6 +245,8 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 total_time = utime+stime;
                 outFile << "Total time smartstack quicksort with N=" 
                 << N << ": " << total_time <<endl;
+                outFile << "Keys cmp : " << keysCmp << endl;
+                outFile << "Registers copy : " << regCpy << endl;
                 break;
             }    
         }
