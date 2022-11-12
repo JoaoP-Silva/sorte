@@ -3,7 +3,7 @@
 
 
 #include <iostream>
-
+#include <climits>
 
 //Class node to represent a container in the stack.
 class Node{

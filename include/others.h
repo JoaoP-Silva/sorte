@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdlib>
 #include <fstream>
+#include <sys/resource.h>
 
 #include "quicksort.h"
 

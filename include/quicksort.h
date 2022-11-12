@@ -39,6 +39,12 @@ class quicksort{
         //Recursive quicksort mixed with selectionsort
         static void quicksortSelection(int* array, int arrSize, int m);
 
+        //Iterative quicksort
+        static void quisortIterative(int* array, int arrSize);
+
+        //Smart stack iterative quicksort
+        static void quisortSmartStack(int* array, int arrSize);
+
 
 };
 

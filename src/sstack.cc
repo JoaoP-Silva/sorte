@@ -1,7 +1,7 @@
 #include "sstack.h"
 
 //Node constructors
-Node::Node() : Val(NULL), Next(nullptr) {};
+Node::Node() : Val(INT_MIN), Next(nullptr) {};
 Node::Node(int val) : Val(val), Next(nullptr) {};
 Node::Node(int val, Node* next) : Val(val), Next(next) {};
 
@@ -34,7 +34,7 @@ int Stack::isEmpty(){
 
 int Stack::pop(){
     if(this->isEmpty()){
-        return NULL;
+        return INT_MIN;
     }
     else{
         int f = this->front();

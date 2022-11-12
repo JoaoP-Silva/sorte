@@ -1,6 +1,6 @@
 #include "quicksort.h"
 
-//Standard recursive quicksort methods
+//Methods from Standard recursive quicksort
 void quicksort::partitionStd(int* array, int left, int right, int* i, int* j){
     int pvt, aux;
     *i = left; *j = right;
@@ -30,7 +30,7 @@ void quicksort::quicksortStdR(int left, int right, int* array){
 
 
 
-//Recursive quicksort median methods
+//Methods from quicksort median
 void quicksort::partitionMedian(int* array, int left, int right, int* i, int* j, int k){
     int pvt, aux;
     *i = left;
@@ -74,7 +74,7 @@ void quicksort::quicksortMedianR(int left, int right, int k, int* array){
 }
 
 
-//Recursive quicksort mixed with selectionsort methods
+//Methods from recursive quicksort mixed with selectionsort
 void quicksort::quicksortSelection(int* array, int arrSize, int m){
     quicksort::quicksortSelectionR(0, arrSize-1, m,array);
 }
@@ -101,4 +101,49 @@ void quicksort::selectionSort(int* array, int left, int right){
             }
         }
     }
+}
+
+//Methods from quicksortIterative
+void quicksort::quisortIterative(int* array, int arrSize){
+    Stack s;
+    int right = arrSize - 1, left = 0, i , j;
+    s.push(right);
+    s.push(left);
+    do{
+        if(right > left){
+            quicksort::partitionStd(array, left, right, &i, &j);
+            s.push(j);
+            s.push(left);
+            left = i;
+        }else{
+            left = s.pop();
+            right = s.pop();
+        }
+    }while(!s.isEmpty());
+}
+
+
+//Methods from Smart stack quicksort
+void quicksort::quisortSmartStack(int* array, int arrSize){
+    Stack s;
+    int right = arrSize - 1, left = 0, i , j;
+    s.push(right);
+    s.push(left);
+    do{
+        if(right > left){
+            quicksort::partitionStd(array, left, right, &i, &j);
+            if((j - left) > (right - i)){
+                s.push(j);
+                s.push(left);
+                left = i;
+            }else{
+                s.push(right);
+                s.push(i);
+                right = j;
+            }
+        }else{
+            left = s.pop();
+            right = s.pop();
+        }
+    }while(!s.isEmpty());
 }

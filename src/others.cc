@@ -1,5 +1,7 @@
 #include "others.h"
 
+using namespace std;
+
 int sortParser(char* argv[], int* randSeed,string& input, string& output){
 
     //If some parameter is wrong, return -1;
@@ -100,6 +102,12 @@ int* genRandInt(int N, int seed){
 
 
 int callSort(int res, char* argv[], int seed, string input, string output){
+    ofstream outFile;
+    outFile.open(output, ios::app);
+    if(!outFile.is_open()){
+        cerr << "File error. "<< output <<" Not found or created\n";
+        return 0;
+    }
     ifstream inFile;
     inFile.open(input);
     if(!inFile.is_open()){
@@ -114,42 +122,124 @@ int callSort(int res, char* argv[], int seed, string input, string output){
         {
             case 1:
             {
+                struct rusage resources;
+                int rc;
+                double utime, stime, total_time;
                 //Invoke default quicksort
                 quicksort::quicksortStd(array, N);
+
+                if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
+                    cerr << "Getrusage failed\n";
+                }
+                utime = (double) resources.ru_utime.tv_sec
+                + 1.e-6 * (double) resources.ru_utime.tv_usec;
+
+                stime = (double) resources.ru_stime.tv_sec
+                + 1.e-6 * (double) resources.ru_stime.tv_usec;
+
+                total_time = utime+stime;
+                outFile << "Total time std quicksort with N=" 
+                << N << ": " << total_time <<endl;
+
                 break;
             }
 
             case 2:
             {
-                int k = atoi(argv[5]);
+                struct rusage resources;
+                int rc;
+                double utime, stime, total_time;
                 //Invoke median quicksort
+                int k = atoi(argv[5]);
                 quicksort::quicksortMedian(array, N, k);
+
+                if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
+                    cerr << "Getrusage failed\n";
+                }
+                utime = (double) resources.ru_utime.tv_sec
+                + 1.e-6 * (double) resources.ru_utime.tv_usec;
+
+                stime = (double) resources.ru_stime.tv_sec
+                + 1.e-6 * (double) resources.ru_stime.tv_usec;
+
+                total_time = utime+stime;
+                outFile << "Total time median quicksort with N=" 
+                << N << "and k="<< k <<": " << total_time <<endl;
                 break;
             }
             case 3:
-            {   
-                int m = atoi(argv[5]);
+            {
+                struct rusage resources;
+                int rc;
+                double utime, stime, total_time;
                 //Invoke selection quicksort
-                std::cout << "Chamando selction\n";
+                int m = atoi(argv[5]);
                 quicksort::quicksortSelection(array, N, m);
-                for(int i = 0; i < N; i++){
-                    std::cout << array[i] << " ";
+
+                if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
+                    cerr << "Getrusage failed\n";
                 }
+                utime = (double) resources.ru_utime.tv_sec
+                + 1.e-6 * (double) resources.ru_utime.tv_usec;
+
+                stime = (double) resources.ru_stime.tv_sec
+                + 1.e-6 * (double) resources.ru_stime.tv_usec;
+
+                total_time = utime+stime;
+                outFile << "Total time selection quicksort with N=" 
+                << N << "and m="<< m <<": " << total_time <<endl;
                 break;
             }
             case 4:
             {
-
+                struct rusage resources;
+                int rc;
+                double utime, stime, total_time;
                 //Invoke iterative quicksort
+                quicksort::quisortIterative(array, N);
+
+                if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
+                    cerr << "Getrusage failed\n";
+                }
+                utime = (double) resources.ru_utime.tv_sec
+                + 1.e-6 * (double) resources.ru_utime.tv_usec;
+
+                stime = (double) resources.ru_stime.tv_sec
+                + 1.e-6 * (double) resources.ru_stime.tv_usec;
+
+                total_time = utime+stime;
+                outFile << "Total time iterative quicksort with N=" 
+                << N << ": " << total_time <<endl;
                 break;
             }
             case 5:
             {
+                struct rusage resources;
+                int rc;
+                double utime, stime, total_time;
                 //Invoke smart stack quicksort
+                quicksort::quisortSmartStack(array, N);
+                
+                if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
+                    cerr << "Getrusage failed\n";
+                }
+                utime = (double) resources.ru_utime.tv_sec
+                + 1.e-6 * (double) resources.ru_utime.tv_usec;
+
+                stime = (double) resources.ru_stime.tv_sec
+                + 1.e-6 * (double) resources.ru_stime.tv_usec;
+
+                total_time = utime+stime;
+                outFile << "Total time smartstack quicksort with N=" 
+                << N << ": " << total_time <<endl;
                 break;
             }    
         }
+        cout << "Experiment with N=" << N << " completed\n";
         delete array;
     }
+    cout << "All experiments completed\n";
+    outFile.close();
+    inFile.close();
     return 0;
 }
