@@ -23,4 +23,3 @@ all: $(OBJ)
 clean:
 	@rm -rf $(OBJ_FOLDER)*
 
-run:
