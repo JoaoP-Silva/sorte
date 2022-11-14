@@ -121,7 +121,7 @@ int* genRandInt(int N, int seed){
     srand(seed);
     int* array = new int[N];
     for(int i = 0; i<N; i++){
-        array[i] = rand() % 100;
+        array[i] = rand();
     }
     return array;
 }
@@ -282,11 +282,7 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 int rc;
                 double utime, stime, total_time;
                 //Invoke smart stack quicksort
-                cout << "heapsort\n";
                 heapsort::heapSort(array, N, &keysCmp, &regCpy);
-                for(int i=0; i < N; i++){
-                    cout << array[i] << " ";
-                }
                 if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
                     cerr << "Getrusage failed\n";
                 }
@@ -301,7 +297,6 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 << N << ": " << total_time <<endl;
                 outFile << "Keys cmp : " << keysCmp << endl;
                 outFile << "Registers copy : " << regCpy << endl;
-                break;
             }
             {
                 int keysCmp, regCpy;
@@ -311,9 +306,6 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 //Invoke smart stack quicksort
                 cout << "teste teste\n";
                 mergesort::mergeSort(array, N, &keysCmp, &regCpy);
-                for(int i=0; i < N; i++){
-                    cout << array[i] << " ";
-                }
                 if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
                     cerr << "Getrusage failed\n";
                 }
