@@ -2,17 +2,43 @@
 
 using namespace std;
 
+/**Function to parse the input and return a int related to the sort method.
+* Modifies the randSeed, and the strings input and output to the file names. **/ 
 int sortParser(char* argv[], int* randSeed,string& input, string& output){
 
     //If some parameter is wrong, return -1;
     string s = argv[1];
-    if(s != "quicksort"){
+    //Flag to indicate that will run heapsort and mergesort
+    bool flagOthers = 0;
+    if(s != "quicksort" && s != "others"){
         return 0;
     }
 
-    s = argv[2];
-    if(s != "-v"){
-        return 0;
+    if(s == "others"){
+        flagOthers = 1;
+    }
+    else{
+        s = argv[2];
+        if(s != "-v"){
+            return 0;
+        }
+    }
+
+
+    //Setup the heapsort and mergesort experiment parameters
+    if(flagOthers){
+        //Invoke heapsort and mergesort
+        s = argv[2];
+        if( s != "-s"){ return 0; }
+        s = argv[4];
+        if( s != "-i"){ return 0; }
+        s = argv[6];
+        if( s != "-o"){ return 0; }
+        //If all input flags are correct, return the sort method and modifies i/o filenames
+        *randSeed = atoi(argv[3]);
+        input = argv[5];
+        output = argv[7];
+        return 6;
     }
 
     string v = argv[3];
@@ -95,7 +121,7 @@ int* genRandInt(int N, int seed){
     srand(seed);
     int* array = new int[N];
     for(int i = 0; i<N; i++){
-        array[i] = rand();
+        array[i] = rand() % 100;
     }
     return array;
 }
@@ -248,7 +274,62 @@ int callSort(int res, char* argv[], int seed, string input, string output){
                 outFile << "Keys cmp : " << keysCmp << endl;
                 outFile << "Registers copy : " << regCpy << endl;
                 break;
-            }    
+            }
+            case 6:
+            {
+                int keysCmp, regCpy;
+                struct rusage resources;
+                int rc;
+                double utime, stime, total_time;
+                //Invoke smart stack quicksort
+                cout << "heapsort\n";
+                heapsort::heapSort(array, N, &keysCmp, &regCpy);
+                for(int i=0; i < N; i++){
+                    cout << array[i] << " ";
+                }
+                if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
+                    cerr << "Getrusage failed\n";
+                }
+                utime = (double) resources.ru_utime.tv_sec
+                + 1.e-6 * (double) resources.ru_utime.tv_usec;
+
+                stime = (double) resources.ru_stime.tv_sec
+                + 1.e-6 * (double) resources.ru_stime.tv_usec;
+
+                total_time = utime+stime;
+                outFile << "Total time heapsort with N=" 
+                << N << ": " << total_time <<endl;
+                outFile << "Keys cmp : " << keysCmp << endl;
+                outFile << "Registers copy : " << regCpy << endl;
+                break;
+            }
+            {
+                int keysCmp, regCpy;
+                struct rusage resources;
+                int rc;
+                double utime, stime, total_time;
+                //Invoke smart stack quicksort
+                cout << "teste teste\n";
+                mergesort::mergeSort(array, N, &keysCmp, &regCpy);
+                for(int i=0; i < N; i++){
+                    cout << array[i] << " ";
+                }
+                if((rc = getrusage(RUSAGE_SELF, &resources)) != 0){
+                    cerr << "Getrusage failed\n";
+                }
+                utime = (double) resources.ru_utime.tv_sec
+                + 1.e-6 * (double) resources.ru_utime.tv_usec;
+
+                stime = (double) resources.ru_stime.tv_sec
+                + 1.e-6 * (double) resources.ru_stime.tv_usec;
+
+                total_time = utime+stime;
+                outFile << "Total time mergesort with N=" 
+                << N << ": " << total_time <<endl;
+                outFile << "Keys cmp : " << keysCmp << endl;
+                outFile << "Registers copy : " << regCpy << endl;
+                break;
+            }
         }
         cout << "Experiment with N=" << N << " completed\n";
         delete array;

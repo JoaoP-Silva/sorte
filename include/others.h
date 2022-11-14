@@ -8,6 +8,8 @@
 #include <sys/resource.h>
 
 #include "quicksort.h"
+#include "heapsort.h"
+#include "mergesort.h"
 
 using namespace std;
 
