@@ -329,5 +329,5 @@ int callSort(int res, char* argv[], int seed, string input, string output){
     cout << "All experiments completed\n";
     outFile.close();
     inFile.close();
-    return 0;
+    return 1;
 }
